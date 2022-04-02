@@ -15,6 +15,9 @@
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.13" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.13" />
+    <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.13.2" />
+    <PackageReference Include="Avalonia.Xaml.Interactions" Version="0.10.13.2" />
+    <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.13.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.csproj" />
