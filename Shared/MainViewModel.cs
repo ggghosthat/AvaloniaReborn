@@ -27,7 +27,7 @@ namespace Shared.ViewModels
             CurrentDirectoryItem = DirectoryTabItems.FirstOrDefault();
         }
 
-
+        
         #endregion
 
         #region methods
@@ -64,7 +64,10 @@ namespace Shared.ViewModels
             
         }
 
+        public void AppClosing()
+        {
 
+        }
         #endregion
     }
 }

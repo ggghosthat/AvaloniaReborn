@@ -14,7 +14,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="{Binding FilePath}"></TextBlock>
+        <TextBlock Grid.Row="0" Background="White"  Text="{Binding FilePath}"></TextBlock>
 
         <ListBox Grid.Row="1"
                  ItemsSource="{Binding DirectoriesAndFiles}"
