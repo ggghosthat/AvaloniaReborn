@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.History;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Input;
@@ -7,7 +8,11 @@ namespace Shared.ViewModels
 {
     public class DirectoryTabItemViewModel : BaseViewModel
     {
-        #region Fields
+        #region Private Fields
+        private readonly IDirectoryHistory directoryHistory;
+        #endregion
+
+        #region Public Fields
         public string FilePath { get; set; }
         public string Name { get; set; }
         public ObservableCollection<FileEntityViewModel> DirectoriesAndFiles { get; set; } = new ObservableCollection<FileEntityViewModel>();
@@ -20,8 +25,10 @@ namespace Shared.ViewModels
 
 
         #region Command
-        public ICommand OpenCommand { get; }
-        public ICommand CloseCommand { get; }
+        public DelegateCommand OpenCommand { get; }
+        public DelegateCommand MoveBackCommand { get; }
+        public DelegateCommand MoveForwardCommand { get; }
+        public DelegateCommand RefreshCommand { get; }
         #endregion
 
 
@@ -29,18 +36,52 @@ namespace Shared.ViewModels
         #region constructor
         public DirectoryTabItemViewModel()
         {
-            OpenCommand = new DelegateCommand(Open);
-            CloseCommand = new DelegateCommand(OnClose);
-            Name = "My machine";
+            directoryHistory = new DirectoryHistory("My machine", "My machine");
 
-            foreach (var logicalDrive in Directory.GetLogicalDrives())
-                DirectoriesAndFiles.Add(new DirectoryViewModel(logicalDrive));
+            OpenCommand = new DelegateCommand(Open);
+            MoveBackCommand = new DelegateCommand(OnMoveBack, OnCanMoveBack);
+            MoveForwardCommand = new DelegateCommand(OnMoveForward, OnCanMoveForward);
+
+
+            Name = directoryHistory.Current.DirectoryPathName;
+            FilePath = directoryHistory.Current.DirectoryPath;
+
+            if (Name == "My machine")
+            {
+                foreach (var logicalDrive in Directory.GetLogicalDrives())
+                    DirectoriesAndFiles.Add(new DirectoryViewModel(logicalDrive));
+            }
+            else
+            {
+                OpenDirectory();
+            }
+
+            directoryHistory.HistoryChanged += HistoryChanged;
         }
+
+        
         #endregion
 
 
-        #region Events
-        public event EventHandler Closed;
+        #region Methods
+        private void OpenDirectory()
+        {
+            DirectoriesAndFiles.Clear();
+
+            var directoryinfo = new DirectoryInfo(FilePath);
+
+            foreach (var directoryItem in directoryinfo.GetDirectories())
+                DirectoriesAndFiles.Add(new DirectoryViewModel(directoryItem));
+
+            foreach (var fileItem in directoryinfo.GetFiles())
+                DirectoriesAndFiles.Add(new FileViewModel(fileItem));
+        }
+
+        private void HistoryChanged(object sender, EventArgs e)
+        {
+            MoveBackCommand?.RaiseCanExecute();
+            MoveForwardCommand?.RaiseCanExecute();
+        }
         #endregion
 
         #region Commandmethods
@@ -51,22 +92,37 @@ namespace Shared.ViewModels
                 FilePath = directoryViewModel.FullName;
                 Name = directoryViewModel.FullName;
 
-                DirectoriesAndFiles.Clear();
+                directoryHistory.Add(FilePath, Name);
 
-                var directoryinfo = new DirectoryInfo(FilePath);
-
-                foreach (var directoryItem in directoryinfo.GetDirectories())
-                    DirectoriesAndFiles.Add(new DirectoryViewModel(directoryItem));
-
-                foreach (var fileItem in directoryinfo.GetFiles())
-                    DirectoriesAndFiles.Add(new FileViewModel(fileItem));
+                OpenDirectory();
             }
         }
 
-        private void OnClose(object obj)
+        private bool OnCanMoveBack(object obj)
         {
-            Closed?.Invoke(this, EventArgs.Empty);
+            return directoryHistory.CanMoveBack;
         }
+        private void OnMoveBack(object obj)
+        {
+            directoryHistory.MoveBack();
+
+            var current = directoryHistory.Current;
+
+            FilePath = current.DirectoryPath;
+            Name = current.DirectoryPathName;
+
+            OpenDirectory();
+        }
+
+
+        private bool OnCanMoveForward(object obj)
+        {
+            return directoryHistory.CanMoveForward;
+        }
+        private void OnMoveForward(object obj)
+        {
+        }
+
         #endregion
     }
 }

@@ -14,13 +14,16 @@ namespace Shared.ViewModels
         #endregion
 
         #region Commands
-        public ICommand AddTabItemCommand { get; }
+        public DelegateCommand AddTabItemCommand { get; }
+        public DelegateCommand CloseCommand { get; }
+
         #endregion
 
         #region constructor
         public MainViewModel()
         {
             AddTabItemCommand = new DelegateCommand(AddTabItem);
+            CloseCommand = new DelegateCommand(OnClose);
 
             AddTabItemViewModel();
 
@@ -28,6 +31,8 @@ namespace Shared.ViewModels
         }
 
         
+
+
         #endregion
 
         #region methods
@@ -39,23 +44,20 @@ namespace Shared.ViewModels
         {
             var tabVM = new DirectoryTabItemViewModel();
 
-            tabVM.Closed += TabVM_Closed;
-
             DirectoryTabItems.Add(tabVM);
 
             CurrentDirectoryItem = tabVM;
         }
 
-        private void TabVM_Closed(object sender, EventArgs e)
+        private void OnClose(object obj)
         {
-            if (sender is DirectoryTabItemViewModel directoryTabItem)
+            if (obj is DirectoryTabItemViewModel directoryTabItem)
                 CollapseTabViewModel(directoryTabItem);
         }
 
         private void CollapseTabViewModel(DirectoryTabItemViewModel directoryTabItem)
         {
             var index = DirectoryTabItems.IndexOf(directoryTabItem);
-            directoryTabItem.Closed -= TabVM_Closed;
 
             DirectoryTabItems.Remove(directoryTabItem);
 

@@ -11,7 +11,9 @@
         
         WindowStyle="None"
         WindowState="Maximized"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        
+        x:Name="window">
     
     
     <Window.Resources>
@@ -26,6 +28,9 @@
                                     <!--Title Bar-->
                                     <RowDefinition Height="49"/>
 
+                                    <!--Search Bar-->
+                                    <RowDefinition Height="49"/>
+                                    
                                     <!--Bookmarks-->
                                     <RowDefinition Height="36"/>
 
@@ -53,7 +58,9 @@
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock Text="{Binding Name}"/>
-                                                    <Button Command="{Binding CloseCommand}">X</Button>
+                                                    <Button Content="X"
+                                                            Command="{Binding DataContext.CloseCommand, ElementName=window }"
+                                                            CommandParameter="{Binding}"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
@@ -80,14 +87,49 @@
                                     </StackPanel>
                                 </Grid>
 
+                                <!--Search Bar-->
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <Button Grid.Column="0"
+                                            Margin="2"
+                                            Content="&lt;-"
+                                            Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                                            Command="{Binding CurrentDirectoryItem.MoveBackCommand}"/>
+                                    <Button Grid.Column="1"
+                                            Content="-&gt;"
+                                            Margin="2"
+                                            Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                                            Command="{Binding CurrentDirectoryItem.MoveForwardCommand}"/>
+                                    <Button Grid.Column="2"
+                                            Content="0"
+                                            Margin="2"
+                                            Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                                            Command="{Binding CurrentDirectoryItem.RefreshCommand}"/>
+
+
+                                    <TextBox Grid.Column="3" 
+                                             Background="White" 
+                                             VerticalAlignment="Center"
+                                             FontSize="16"
+                                             Text="{Binding CurrentDirectoryItem.FilePath}"/>
+                                </Grid>
+
+                                <!--Bookmarks-->
                                 <StackPanel Background="#FF212121"
-                                            Grid.Row="1">
+                                            Grid.Row="2">
                                     <Menu>
                                         <MenuItem Header="Projects"/>
                                     </Menu>
                                 </StackPanel>
                                 
-                                <ContentControl Grid.Row="2"
+                                <!--Content-->
+                                <ContentControl Grid.Row="3"
                                                 Content="{Binding CurrentDirectoryItem}">
                                     <ContentControl.ContentTemplate>
                                         <DataTemplate>
