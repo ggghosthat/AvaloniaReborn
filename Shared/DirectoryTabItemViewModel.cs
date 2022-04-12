@@ -23,15 +23,12 @@ namespace Shared.ViewModels
         public DirectoryTabItemViewModel CurrentDirectoryItem { get; set; }
         #endregion
 
-
         #region Command
         public DelegateCommand OpenCommand { get; }
         public DelegateCommand MoveBackCommand { get; }
         public DelegateCommand MoveForwardCommand { get; }
         public DelegateCommand RefreshCommand { get; }
         #endregion
-
-
 
         #region constructor
         public DirectoryTabItemViewModel()
@@ -46,15 +43,8 @@ namespace Shared.ViewModels
             Name = directoryHistory.Current.DirectoryPathName;
             FilePath = directoryHistory.Current.DirectoryPath;
 
-            if (Name == "My machine")
-            {
-                foreach (var logicalDrive in Directory.GetLogicalDrives())
-                    DirectoriesAndFiles.Add(new DirectoryViewModel(logicalDrive));
-            }
-            else
-            {
-                OpenDirectory();
-            }
+            OpenDirectory();
+
 
             directoryHistory.HistoryChanged += HistoryChanged;
         }
@@ -62,11 +52,18 @@ namespace Shared.ViewModels
         
         #endregion
 
-
         #region Methods
         private void OpenDirectory()
         {
             DirectoriesAndFiles.Clear();
+
+            if (Name == "My machine")
+            {
+                foreach (var logicalDrive in Directory.GetLogicalDrives())
+                    DirectoriesAndFiles.Add(new DirectoryViewModel(logicalDrive));
+
+                return;
+            }
 
             var directoryinfo = new DirectoryInfo(FilePath);
 
@@ -121,6 +118,14 @@ namespace Shared.ViewModels
         }
         private void OnMoveForward(object obj)
         {
+            directoryHistory.MoveForward();
+
+            var current = directoryHistory.Current;
+
+            FilePath = current.DirectoryPath;
+            Name = current.DirectoryPathName;
+
+            OpenDirectory();
         }
 
         #endregion
