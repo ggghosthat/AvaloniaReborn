@@ -47,7 +47,7 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
 
-                                        <ListBox ItemsSource="{Binding DirectoryTabItems}"
+                                    <ListBox ItemsSource="{Binding DirectoryTabItems}"
                                              SelectedItem="{Binding CurrentDirectoryItem}">
                                         <ListBox.ItemsPanel>
                                             <ItemsPanelTemplate>
