@@ -133,7 +133,11 @@
                                                 Content="{Binding CurrentDirectoryItem}">
                                     <ContentControl.ContentTemplate>
                                         <DataTemplate>
-                                            <ui:ReBornTabCtrl/>
+                                            <ui:ReBornTabCtrl>
+                                                <ui:ReBornTabCtrl.Background>
+                                                    <ImageBrush ImageSource="/ReBorn.WPF.UI;component/Assets/back.jpg"/>
+                                                </ui:ReBornTabCtrl.Background>
+                                            </ui:ReBornTabCtrl>
                                         </DataTemplate>
                                     </ContentControl.ContentTemplate>
                                 </ContentControl>
