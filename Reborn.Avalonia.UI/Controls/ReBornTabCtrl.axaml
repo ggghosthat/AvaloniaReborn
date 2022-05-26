@@ -3,10 +3,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-
-            xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-            xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
-
+             
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             
+             xmlns:ans="clr-namespace:Reborn.Avalonia.UI"
+             
              x:Class="Reborn.Avalonia.UI.ReBornTabCtrl">
 
             <Grid>
@@ -16,19 +18,101 @@
                 </Grid.RowDefinitions>
   
                 <ListBox Grid.Row="1"
-                          Items="{Binding DirectoriesAndFiles}"
-                          SelectedItem="{Binding SelectedFileEntity}">
-               
+                         Items="{Binding DirectoriesAndFiles}"
+                         SelectedItem="{Binding SelectedFileEntity}"
+                         Background="Transparent">
+
+                  <ListBox.Styles>
+                    <Style Selector="ListBoxItem">
+                      <Setter Property="BorderBrush" Value="Transparent"/>
+                      <Setter Property="BorderThickness" Value="0"/>
+                      <Setter Property="Padding" Value="4"/>
+                      
+                      <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                      
+                      <Setter Property="Width" Value="100"/>
+                      <Setter Property="Height" Value="100"/>
+                      <Setter Property="Template">
+                        <ControlTemplate>
+                          <Grid>
+                            <Border x:Name="Bd"
+                                    Margin="5"
+                                    CornerRadius="7"
+                                    Background="{TemplateBinding Background}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    Padding="{TemplateBinding Padding}">
+                              <Grid>
+                                <ContentPresenter Name="PART_ContentPresenter"
+                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  Content="{TemplateBinding Content}"/>
+                              </Grid>
+                            </Border>
+                            
+                          </Grid>
+                          
+                        </ControlTemplate>
+                      </Setter>
+                    </Style>
+
+                    <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+                      <Setter Property="Background" Value="#6607824b"/>
+                    </Style>
+
+                    <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                      <Setter Property="Background" Value="#9907824b"/>
+                    </Style>
+
+                    <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
+                      <Setter Property="Background" Value="#9907824b"/>
+                    </Style>
+
+                    <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
+                      <Setter Property="Background" Value="#9907824b"/>
+                    </Style>
+
+                    <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
+                      <Setter Property="Background" Value="#9907824b"/>
+                    </Style>
+                  </ListBox.Styles>
+
+                  <ListBox.Resources>
+                    <ans:FileEntityToImageConverter x:Key="FileEntityResource"/>
+                  </ListBox.Resources>
+                  
+                  <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                      <WrapPanel/>
+                    </ItemsPanelTemplate>
+                  </ListBox.ItemsPanel>
+                  
                   <i:Interaction.Behaviors>
                     <ia:EventTriggerBehavior EventName="DoubleTapped">
                       <ia:InvokeCommandAction Command="{Binding OpenCommand}"
                                         CommandParameter="{Binding SelectedFileEntity}"/>
                     </ia:EventTriggerBehavior>  
                   </i:Interaction.Behaviors>
+                  
                   <ListBox.ItemTemplate>
                     <DataTemplate>
                       <Grid Background="Transparent">
-                        <TextBlock Text="{Binding Name}"/>
+
+                        <Grid.RowDefinitions>
+                          <RowDefinition/>
+                          <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <DrawingPresenter 
+                                  Drawing="{Binding ., Converter={StaticResource FileEntityResource}}"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="1"
+                                   HorizontalAlignment="Center"
+                                   Foreground="White"
+                                   Text="{Binding Name}"
+                                   TextAlignment="Center"/>
                       </Grid>
                     </DataTemplate>
                   </ListBox.ItemTemplate>

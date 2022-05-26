@@ -12,7 +12,6 @@
         xmlns:local="using:Reborn.Avalonia.UI"
         
         x:Class="Reborn.Avalonia.UI.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
         WindowStartupLocation="CenterScreen"
         HasSystemDecorations="False"
         Name="Window">
@@ -23,6 +22,7 @@
       <Setter Property="Template">
         <ControlTemplate>
 
+          <!--Icon="/Assets/avalonia-logo.ico"-->
               <Border Background="Black">
               <Grid>
 
@@ -137,7 +137,12 @@
                                 Content="{Binding CurrentDirectoryItem}">
                   <ContentControl.ContentTemplate>
                     <DataTemplate>
-                      <local:ReBornTabCtrl/>
+                      <local:ReBornTabCtrl>
+                        <local:ReBornTabCtrl.Background>
+                          <ImageBrush Source="avares://Reborn.Avalonia.UI/Assets/back.jpg"
+                                      Stretch="Fill"/>
+                        </local:ReBornTabCtrl.Background>
+                      </local:ReBornTabCtrl>
                     </DataTemplate>
                   </ContentControl.ContentTemplate>
                 </ContentControl>
