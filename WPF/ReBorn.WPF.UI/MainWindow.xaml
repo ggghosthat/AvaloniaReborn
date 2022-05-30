@@ -3,8 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:local="clr-namespace:ReBorn.WPF.UI"
         xmlns:ui="clr-namespace:ReBorn.WPF.UI"
         mc:Ignorable="d"
         Height="450" Width="800"
@@ -77,6 +75,7 @@
                                                 VerticalAlignment="Top">
                                         <Button Width="44"
                                                 Height="28"
+                                                ui:Windows.IsActive="{TemplateBinding IsEnabled}"
                                                 Click="HideButton_OnClick"
                                                 x:Name="HideButton">
 
@@ -103,15 +102,27 @@
                                                                     </Viewbox>
                                                                 </Border>
                                                                 <ControlTemplate.Triggers>
-                                                                    <Trigger Property="IsDefaulted" Value="true">
-                                                                    </Trigger>
-                                                                    <Trigger Property="IsMouseOver" Value="true">
+
+                                                                    <!--<Trigger Property="IsMouseOver" Value="true">
                                                                         <Setter Property="Background" Value="#1A1A1A"/>
                                                                     </Trigger>
-                                                                    <Trigger Property="IsPressed" Value="true">
+                                                                    <Trigger Property="ui:Windows.IsActive" Value="False">
+                                                                        <Setter Property="Foreground" Value="#666666"/>
                                                                     </Trigger>
-                                                                    <Trigger Property="IsEnabled" Value="false">
-                                                                    </Trigger>
+                                                                    
+                                                                    <MultiTrigger>
+                                                                        <MultiTrigger.Conditions>
+                                                                            <Condition Property="ui:Windows.IsActive" Value="False"/>
+                                                                            <Condition Property="IsMouseOver" Value="True"/>
+                                                                        </MultiTrigger.Conditions>
+                                                                        <MultiTrigger.Setters>
+                                                                            <Setter Property="Foreground" Value="#b8b8b8"/>
+                                                                        </MultiTrigger.Setters>
+                                                                    </MultiTrigger>
+
+                                                                    <Trigger Property="IsPressed" Value="True">
+                                                                        <Setter Property="Foreground" Value="#333333"/>
+                                                                    </Trigger>-->
                                                                 </ControlTemplate.Triggers>
                                                             </ControlTemplate>
                                                         </Setter.Value>
@@ -119,11 +130,13 @@
                                                 </Style>
                                             </Button.Style>
                                         </Button>
+                                        
                                         <Button Width="44"
-                                                Height="28"
+                                                Height="28"                                                
+                                                ui:Windows.IsActive="{TemplateBinding IsEnabled}"
+                                                ui:Windows.WindowState="{TemplateBinding WindowState}"
                                                 Click="ExpandButton_OnClick"
                                                 x:Name="ExpandButton">
-                                            
 
                                             <Button.Style>
                                                 <Style TargetType="{x:Type Button}">
@@ -146,14 +159,52 @@
                                                                     </Viewbox>
                                                                 </Border>
                                                                 <ControlTemplate.Triggers>
-                                                                    <Trigger Property="IsDefaulted" Value="true">
-                                                                    </Trigger>
                                                                     <Trigger Property="IsMouseOver" Value="true">
                                                                         <Setter Property="Background" Value="#1A1A1A"/>
                                                                     </Trigger>
-                                                                    <Trigger Property="IsPressed" Value="true">
+
+                                                                    <Trigger Property="ui:Windows.IsActive" Value="False">
+                                                                        <Setter Property="Foreground" Value="#666666"/>
                                                                     </Trigger>
-                                                                    <Trigger Property="IsEnabled" Value="false">
+
+                                                                    <MultiTrigger>
+                                                                        <MultiTrigger.Conditions>
+                                                                            <Condition Property="ui:Windows.IsActive" Value="False"/>
+                                                                            <Condition Property="IsMouseOver" Value="True"/>
+                                                                        </MultiTrigger.Conditions>
+                                                                        <MultiTrigger.Setters>
+                                                                            <Setter Property="Foreground" Value="#b8b8b8"/>
+                                                                        </MultiTrigger.Setters>
+                                                                    </MultiTrigger>
+
+                                                                    <Trigger Property="IsPressed" Value="True">
+                                                                        <Setter Property="Foreground" Value="#333333"/>
+                                                                    </Trigger>
+
+
+
+                                                                    <Trigger Property="ui:Windows.WindowState" Value="Normal">
+                                                                        <Setter Property="Content">
+                                                                            <Setter.Value>
+                                                                                <Canvas Width="24" Height="24">
+                                                                                    <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor,  AncestorType={x:Type Button}}}"
+                                                                                          Data="M4,4H20V20H4V4M6,8V18H18V8H6Z" />
+                                                                                </Canvas>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                        <Setter Property="ToolTip" Value="Expand"/>
+                                                                    </Trigger>
+
+                                                                    <Trigger Property="ui:Windows.WindowState" Value="Maximized">
+                                                                        <Setter Property="Content">
+                                                                            <Setter.Value>
+                                                                                <Canvas Width="24" Height="24">
+                                                                                    <Path  Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor,  AncestorType={x:Type Button}}}"
+                                                                                           Data="M4,8H8V4H20V16H16V20H4V8M16,8V14H18V6H10V8H16M6,12V18H14V12H6Z" />
+                                                                                </Canvas>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                        <Setter Property="ToolTip" Value="Normalize"/>
                                                                     </Trigger>
                                                                 </ControlTemplate.Triggers>
                                                             </ControlTemplate>
@@ -161,9 +212,15 @@
                                                     </Setter>
                                                 </Style>
                                             </Button.Style>
+                                            <Canvas Width="24" Height="24">
+                                                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor,  AncestorType={x:Type Button}}}"
+                                                      Data="M4,8H8V4H20V16H16V20H4V8M16,8V14H18V6H10V8H16M6,12V18H14V12H6Z" />
+                                            </Canvas>
                                         </Button>
+                                        
                                         <Button Width="44"
                                                 Height="28"
+                                                ui:Windows.IsActive="{TemplateBinding IsEnabled}"
                                                 Click="CloseButton_OnClick"
                                                 x:Name="CloseButton">                                            
 
@@ -191,15 +248,27 @@
                                                                     </Viewbox>
                                                                 </Border>
                                                                 <ControlTemplate.Triggers>
-                                                                    <Trigger Property="IsDefaulted" Value="true">
-                                                                    </Trigger>
-                                                                    <Trigger Property="IsMouseOver" Value="true">
+                                                                    
+                                                                    <!--<Trigger Property="IsMouseOver" Value="true">
                                                                         <Setter Property="Background" Value="#991667"/>
                                                                     </Trigger>
-                                                                    <Trigger Property="IsPressed" Value="true">
+                                                                    <Trigger Property="ui:Windows.IsActive" Value="False">
+                                                                        <Setter Property="Foreground" Value="#666666"/>
                                                                     </Trigger>
-                                                                    <Trigger Property="IsEnabled" Value="false">
-                                                                    </Trigger>
+
+                                                                    <MultiTrigger>
+                                                                        <MultiTrigger.Conditions>
+                                                                            <Condition Property="ui:Windows.IsActive" Value="False"/>
+                                                                            <Condition Property="IsMouseOver" Value="True"/>
+                                                                        </MultiTrigger.Conditions>
+                                                                        <MultiTrigger.Setters>
+                                                                            <Setter Property="Foreground" Value="#b8b8b8"/>
+                                                                        </MultiTrigger.Setters>
+                                                                    </MultiTrigger>
+
+                                                                    <Trigger Property="IsPressed" Value="True">
+                                                                        <Setter Property="Foreground" Value="#333333"/>
+                                                                    </Trigger>-->
                                                                 </ControlTemplate.Triggers>
                                                             </ControlTemplate>
                                                         </Setter.Value>
@@ -266,40 +335,7 @@
                                 </ContentControl>
                             </Grid>
                         </Border>
-
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsActive" Value="False">
-                                <Setter TargetName="CloseButton" Property="Foreground" Value="#666666"/>
-                                <Setter TargetName="ExpandButton" Property="Foreground" Value="#666666"/>
-                                <Setter TargetName="HideButton" Property="Foreground" Value="#666666"/>
-
-
-                               
-                            </Trigger>
-                            <Trigger Property="WindowState" Value="Normal">
-                                <Setter TargetName="ExpandButton" Property="Content">
-                                    <Setter.Value>
-                                        <Canvas Width="24" Height="24">
-                                            <Path Fill="White"
-                                                  Data="M4,4H20V20H4V4M6,8V18H18V8H6Z" />
-                                        </Canvas>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter TargetName="ExpandButton" Property="ToolTip" Value="Expand"/>
-                            </Trigger>
-                            
-                            <Trigger Property="WindowState" Value="Maximized">
-                                <Setter TargetName="ExpandButton" Property="Content">
-                                    <Setter.Value>
-                                        <Canvas Width="24" Height="24">
-                                            <Path  Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor,  AncestorType={x:Type Button}}}"
-                                                   Data="M4,8H8V4H20V16H16V20H4V8M16,8V14H18V6H10V8H16M6,12V18H14V12H6Z" />
-                                        </Canvas>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter TargetName="ExpandButton" Property="ToolTip" Value="Normalize"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
+                        
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
