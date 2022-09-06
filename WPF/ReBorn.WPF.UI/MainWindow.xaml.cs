@@ -9,12 +9,15 @@ namespace ReBorn.WPF.UI
         public MainWindow()
         {
             InitializeComponent();
-
-            mainViewModel= new MainViewModel();
-
+            mainViewModel = new MainViewModel();
             DataContext = mainViewModel;
-           
         }
+
+        private void AllocateWorkArea()
+        {
+            
+        }
+
 
         private void CloseButton_OnClick(object sender, RoutedEventArgs e)
         {
