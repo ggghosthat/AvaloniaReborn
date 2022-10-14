@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reborn.Avalonia.UI", "Rebor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{6CFC1B22-48CC-4EF2-BC13-79B14FC8C45D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Controls", "Controls", "{C7DEBD45-6256-43D8-BDFF-12E44AD27EE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ggghosthat_chrome_reborn", "WPF\Controls\ggghosthat_chrome_reborn\ggghosthat_chrome_reborn.csproj", "{CABFA582-E807-4A60-A8A9-B92BBBCD9E68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,10 @@ Global
 		{6CFC1B22-48CC-4EF2-BC13-79B14FC8C45D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CFC1B22-48CC-4EF2-BC13-79B14FC8C45D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CFC1B22-48CC-4EF2-BC13-79B14FC8C45D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CABFA582-E807-4A60-A8A9-B92BBBCD9E68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CABFA582-E807-4A60-A8A9-B92BBBCD9E68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CABFA582-E807-4A60-A8A9-B92BBBCD9E68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CABFA582-E807-4A60-A8A9-B92BBBCD9E68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +49,8 @@ Global
 		{3F2ECFFC-FA77-4D29-BF02-C8D47ACAA14E} = {CB5EF88D-90FF-4E1B-BE40-94995040F85A}
 		{CBAABEBC-F17C-4590-8516-A46CFC19E9D2} = {1EDFB53D-7DCC-46AC-A051-7321F9DCD87F}
 		{6CFC1B22-48CC-4EF2-BC13-79B14FC8C45D} = {7A4F4A1E-289A-426B-AE5D-07CB15B4DF83}
+		{C7DEBD45-6256-43D8-BDFF-12E44AD27EE9} = {CB5EF88D-90FF-4E1B-BE40-94995040F85A}
+		{CABFA582-E807-4A60-A8A9-B92BBBCD9E68} = {C7DEBD45-6256-43D8-BDFF-12E44AD27EE9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {26B336A8-D069-4042-99CA-AE885A25962A}
