@@ -57,6 +57,7 @@
                         <StackPanel Orientation="Horizontal"/>
                       </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
+                    
                     <ListBox.ItemTemplate>
                       <DataTemplate>
                         <StackPanel Orientation="Horizontal">
